@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* * {
+  scrollbar-width: thin;
+  scrollbar-color: #22c55e #f1f1f1;
+} */
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-400;
+}
+
+.hero-gradient {
+  background: radial-gradient(circle at center, rgba(134, 239, 172, 0.15), transparent 70%);
+}
+
+.benefits-card {
+  @apply transition-all duration-300 hover:scale-105 hover:shadow-lg;
+}
+
+.recipe-card {
+  @apply transition-all duration-300 hover:scale-105 hover:shadow-xl;
+}
+
+.scroll-section {
+  @apply opacity-0 translate-y-10 transition-all duration-1000;
+}
+
+.scroll-section.visible {
+  @apply opacity-100 translate-y-0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #15803d;
+}
+
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-500;
+}
+
+/* Dark mode transitions */
+.dark * {
+  @apply transition-colors duration-200;
+}
+
+/* Custom scrollbar for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #2C2D31;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #6D5AE6;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #8B75FF;
+}
