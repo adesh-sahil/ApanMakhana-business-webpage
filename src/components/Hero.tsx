@@ -36,7 +36,7 @@ export default function Hero() {
 
             <p className="text-[0.95rem] leading-relaxed sm:text-lg text-gray-500 font-body max-w-md mx-auto lg:mx-0 mb-6 sm:mb-8">
               Hand-picked, FSSAI certified fox nuts — rich in protein, antioxidants &amp; natural goodness.
-              Now available in <strong className="text-gray-700">250+ outlets across 8+ states</strong>.
+              Now available in <strong className="text-gray-700">300+ outlets across 8+ states</strong>.
             </p>
 
             {/* CTAs */}
@@ -49,7 +49,7 @@ export default function Hero() {
                            shadow-lg shadow-brand-600/20 active:shadow-md transition-all"
               >
                 <ShoppingCart className="w-[18px] h-[18px]" />
-                Buy on Amazon — ₹599
+                Buy on Amazon — ₹480
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.97 }}

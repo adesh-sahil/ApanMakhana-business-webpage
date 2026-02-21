@@ -113,7 +113,7 @@ export default function Product() {
                          shadow-lg shadow-brand-600/20 active:shadow-md transition-all"
                         >
                             <ShoppingCart className="w-[18px] h-[18px]" />
-                            Buy Now — ₹599 on Amazon
+                            Buy Now — ₹480 on Amazon
                         </motion.button>
                     </div>
                 </div>

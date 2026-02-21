@@ -47,11 +47,11 @@ export default function Footer() {
                         <ul className="space-y-2.5">
                             <li className="flex items-start gap-2 text-sm text-gray-400 font-body">
                                 <Phone className="w-3.5 h-3.5 mt-0.5 text-gray-500" />
-                                +91 93340 16141
+                                +91-8448714959
                             </li>
                             <li className="flex items-start gap-2 text-sm text-gray-400 font-body">
                                 <Mail className="w-3.5 h-3.5 mt-0.5 text-gray-500" />
-                                apanmakhana@gmail.com
+                                tsmfoods01@gmail.com
                             </li>
                             <li className="flex items-start gap-2 text-sm text-gray-400 font-body">
                                 <MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-gray-500" />

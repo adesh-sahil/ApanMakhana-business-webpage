@@ -84,12 +84,12 @@ export default function FAQ() {
                 >
                     <p className="text-sm font-body text-gray-400 mb-3">Still have questions?</p>
                     <a
-                        href="mailto:apanmakhana@gmail.com"
+                        href="mailto:[EMAIL_ADDRESS]"
                         className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-body font-semibold 
                        text-brand-600 bg-brand-50 hover:bg-brand-100 transition-colors"
                     >
                         <Mail className="w-4 h-4" />
-                        apanmakhana@gmail.com
+                        tsmfoods01@gmail.com
                     </a>
                 </motion.div>
             </div>
