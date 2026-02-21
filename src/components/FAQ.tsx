@@ -1,111 +1,97 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Mail } from 'lucide-react';
 
 const FAQS = [
     {
-        q: 'How should I store Apan Makhana?',
-        a: 'Store in a cool, dry place in an airtight container. Keep away from direct sunlight and moisture. Once opened, consume within 3 months for best taste.',
+        q: 'What makes Apan Makhana different?',
+        a: 'Our makhana is hand-picked from the pristine farms of Mithila, Bihar — where fox nuts have been cultivated for generations. Every pack is FSSAI certified with zero preservatives, ensuring you get the purest, premium quality fox nuts.',
     },
     {
-        q: 'What is the shelf life?',
-        a: 'Apan Makhana has a shelf life of 12 months from packaging date when stored properly in its original sealed packaging.',
+        q: 'Where can I buy Apan Makhana?',
+        a: 'We\'re available in 250+ premium outlets across Delhi NCR, Gujarat, Rajasthan, UP, Haryana, Uttarakhand, Kashmir, Himachal Pradesh, and Bhopal. You can also order on Amazon India for delivery across the country.',
     },
     {
-        q: 'Is it suitable for all age groups?',
-        a: 'Absolutely! Makhana is suitable for all ages — from toddlers to seniors. It\'s a healthy, gluten-free, and easily digestible snack for the whole family.',
+        q: 'Are your fox nuts truly 100% natural?',
+        a: 'Absolutely. Our makhana contains zero artificial ingredients, zero preservatives, and is completely gluten-free, vegan, and non-GMO. What you get is pure, natural fox nuts — nothing else.',
     },
     {
-        q: 'Where are the fox nuts sourced from?',
-        a: 'Our fox nuts are hand-picked from Mithila (Bihar), the heartland of makhana cultivation. We work directly with local farmers for the best quality.',
-    },
-    {
-        q: 'Available in physical stores?',
-        a: 'Yes! Available in 10+ retail outlets across Delhi NCR. Also buy online via Amazon India for doorstep delivery anywhere in India.',
-    },
-    {
-        q: 'Any additives or preservatives?',
-        a: 'No. Apan Makhana is 100% natural with zero additives, preservatives, or artificial flavoring. Pure, premium fox nuts — nothing else.',
+        q: 'What are the health benefits of makhana?',
+        a: 'Makhana is a nutritional powerhouse — high in protein (9.7g per 100g), low in fat, rich in calcium, and packed with antioxidants. It supports heart health, aids weight management, and is great for diabetics due to its low glycemic index.',
     },
 ];
 
-function FAQItem({ faq, index }: { faq: typeof FAQS[0]; index: number }) {
-    const [isOpen, setIsOpen] = useState(false);
-
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.06 }}
-            viewport={{ once: true }}
-            className="border border-gray-100 rounded-xl sm:rounded-2xl overflow-hidden bg-white"
-        >
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex items-center justify-between gap-3 p-4 sm:p-5 text-left"
-            >
-                <h3 className="text-sm sm:text-base lg:text-lg font-display font-semibold text-gray-800 pr-2">
-                    {faq.q}
-                </h3>
-                <motion.div
-                    animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-brand-50 
-                     flex items-center justify-center"
-                >
-                    <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-600" />
-                </motion.div>
-            </button>
-
-            <AnimatePresence initial={false}>
-                {isOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-                    >
-                        <div className="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-gray-50">
-                            <p className="text-gray-500 font-body text-xs sm:text-sm leading-relaxed pt-3">
-                                {faq.a}
-                            </p>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </motion.div>
-    );
-}
-
 export default function FAQ() {
-    const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 });
+    const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+    const [open, setOpen] = useState<number | null>(null);
 
     return (
-        <section id="faq" className="py-16 sm:py-20 lg:py-28 gradient-section-alt" ref={ref}>
-            <div className="max-w-3xl mx-auto px-5 sm:px-6 lg:px-8">
-                {/* Header */}
+        <section id="faq" className="py-16 sm:py-20 lg:py-28 gradient-cream" ref={ref}>
+            <div className="max-w-2xl mx-auto px-5 sm:px-6 lg:px-8">
                 <div className="text-center mb-8 sm:mb-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                    >
-                        <span className="section-badge mb-4 inline-flex">Got Questions?</span>
-                        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-display font-bold mb-3">
-                            <span className="gradient-text-brand">FAQ</span>
+                    <motion.div initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}}>
+                        <span className="section-label mb-4 inline-flex">FAQ</span>
+                        <h2 className="text-2xl sm:text-3xl font-display font-bold text-gray-900 mb-2">
+                            Quick Answers
                         </h2>
-                        <p className="text-gray-500 font-body text-sm sm:text-lg">
-                            Everything you need to know about Apan Makhana
-                        </p>
                     </motion.div>
                 </div>
 
-                {/* FAQ items */}
-                <div className="space-y-2.5 sm:space-y-3">
+                <div className="space-y-2">
                     {FAQS.map((faq, i) => (
-                        <FAQItem key={i} faq={faq} index={i} />
+                        <motion.div
+                            key={i}
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={inView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ delay: i * 0.06 }}
+                            className="bg-white rounded-xl border border-gray-100 overflow-hidden"
+                        >
+                            <button
+                                onClick={() => setOpen(open === i ? null : i)}
+                                className="w-full flex items-center justify-between p-4 sm:p-5 text-left"
+                            >
+                                <span className="text-sm sm:text-[0.9rem] font-body font-semibold text-gray-800 pr-4">
+                                    {faq.q}
+                                </span>
+                                <ChevronDown className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200 ${open === i ? 'rotate-180' : ''
+                                    }`} />
+                            </button>
+                            <AnimatePresence>
+                                {open === i && (
+                                    <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        <p className="px-4 sm:px-5 pb-4 sm:pb-5 text-sm font-body text-gray-500 leading-relaxed">
+                                            {faq.a}
+                                        </p>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </motion.div>
                     ))}
                 </div>
+
+                {/* Email CTA */}
+                <motion.div
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.3 }}
+                    className="text-center mt-8"
+                >
+                    <p className="text-sm font-body text-gray-400 mb-3">Still have questions?</p>
+                    <a
+                        href="mailto:apanmakhana@gmail.com"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-body font-semibold 
+                       text-brand-600 bg-brand-50 hover:bg-brand-100 transition-colors"
+                    >
+                        <Mail className="w-4 h-4" />
+                        apanmakhana@gmail.com
+                    </a>
+                </motion.div>
             </div>
         </section>
     );

@@ -13,9 +13,9 @@
 
 ---
 
-A **premium, mobile-first business webpage** for Apan Makhana — showcasing hand-picked, FSSAI-certified fox nuts straight from the heart of Mithila, Bihar. Built with modern web technologies and polished animations to deliver a luxury brand experience.
+A **premium, mobile-first business webpage** for Apan Makhana — showcasing hand-picked, FSSAI-certified fox nuts from Mithila, Bihar. Available in **250+ retail outlets across 8+ Indian states** and on Amazon India.
 
-[**🌐 Live Website**](https://www.apanmakhana.com) · [**🛒 Buy on Amazon**](https://www.amazon.in)
+[**🛒 Buy on Amazon**](https://www.amazon.in/dp/B0DW3LTXJN) · [**📸 Instagram**](https://www.instagram.com/apan.makhana/)
 
 </div>
 
@@ -25,12 +25,12 @@ A **premium, mobile-first business webpage** for Apan Makhana — showcasing han
 
 | | |
 |---|---|
-| 📱 **Mobile-First Design** | Crafted for the majority of users on mobile — then scaled up for desktop |
-| 🎨 **Premium Aesthetics** | Curated brand colors, glassmorphism, smooth gradients & micro-animations |
-| ⚡ **Blazing Fast** | Vite-powered dev & build, optimized assets, minimal bundle size |
-| 🎬 **Rich Animations** | Framer Motion scroll-triggered reveals, floating elements & hover effects |
-| 🔍 **SEO Optimized** | Open Graph tags, semantic HTML, meta descriptions & sitemap included |
-| ♿ **Accessible** | Proper heading hierarchy, alt text, keyboard-navigable components |
+| 📱 **Mobile-First** | Designed for phone screens first, scaled up for desktop |
+| 🎨 **Premium Design** | Custom brand colors, gradients, glassmorphism & micro-animations |
+| 📊 **Animated Counters** | Numbers count up on scroll (250+ outlets, 8+ states) |
+| 🎬 **Rich Animations** | Framer Motion scroll-reveals, floating elements & hover effects |
+| 🖼️ **Real Photos** | Actual store shelves & customer interaction photos |
+| 🔍 **SEO Optimized** | Open Graph tags, semantic HTML, meta descriptions & sitemap |
 
 ---
 
@@ -51,35 +51,31 @@ Linting         →  ESLint 9 + typescript-eslint
 
 ## 🧩 Components
 
-The application is composed of **12 modular React components**, ordered as they appear on the page:
+The site is built from **9 modular sections** with a narrative flow:
 
 | # | Component | Description |
 |:-:|-----------|-------------|
-| 1 | **`Navbar`** | Sticky responsive navigation with smooth-scroll links & mobile hamburger menu |
-| 2 | **`Hero`** | Full-screen hero section with animated headline, CTA buttons & floating product imagery |
-| 3 | **`TrustBar`** | Animated trust badges — FSSAI certified, 100% natural, premium quality indicators |
-| 4 | **`Features`** | Key product features with icon cards and scroll-reveal animations |
-| 5 | **`Benefits`** | Health benefits of makhana with engaging visual layout |
-| 6 | **`Recipes`** | Recipe ideas & inspiration featuring makhana in various dishes |
-| 7 | **`ProductShowcase`** | Product catalog display with imagery and descriptions |
-| 8 | **`StorePresence`** | Retail store locations & availability across Delhi with store images |
-| 9 | **`Testimonials`** | Customer reviews and social proof carousel |
-| 10 | **`FAQ`** | Expandable accordion-style frequently asked questions |
-| 11 | **`Contact`** | Contact form with WhatsApp integration & business details |
-| 12 | **`Footer`** | Site footer with navigation links, social media & copyright |
+| 1 | **`Navbar`** | Sticky nav with smooth-scroll, mobile drawer & "Buy" CTA |
+| 2 | **`Hero`** | Full-screen hero with bold headline, price CTA & trust signals |
+| 3 | **`TrustTicker`** | Scrolling green bar — FSSAI, Natural, Gluten Free, Non-GMO |
+| 4 | **`MetricsBar`** | Animated counting numbers: 250+ outlets, 8+ states, 3 platforms |
+| 5 | **`WhyChoose`** | 4 reason cards + 8 health benefit tags with product image |
+| 6 | **`Product`** | Nutrition grid, benefit pills & Buy CTA (merged showcase + benefits) |
+| 7 | **`NationwidePresence`** | Region cards, expandable store partners & photo gallery with lightbox |
+| 8 | **`Recipes`** | Horizontal-scroll recipe cards with bottom-sheet modal |
+| 9 | **`FAQ`** | 4-item accordion with email CTA |
+| 10 | **`Footer`** | Dark footer with contact, social links & certifications |
 
 ---
 
 ## 🎨 Design System
 
-The project uses a **custom Tailwind CSS design system** built around the brand identity:
-
 ### Color Palette
 
 ```
-🟢 Brand Green    #2d6a4f → #40916c → #6ec896    (primary actions, headings)
+🟢 Brand Green    #1a472a → #2d6a4f → #40916c    (primary actions, headings)
 🟡 Gold           #c5975a → #d4a574 → #e4c080    (accents, highlights)
-🟤 Cream          #fefdfb → #fdf9f3 → #faf3e7    (backgrounds, cards)
+🟤 Cream          #fefdfb → #fdf9f3 → #faf3e7    (backgrounds)
 ```
 
 ### Typography
@@ -89,9 +85,11 @@ The project uses a **custom Tailwind CSS design system** built around the brand 
 
 ### Effects
 
-- `glass` / `glass-lg` — glassmorphism box shadows
-- `glow` / `glow-gold` — subtle color glow effects
-- `float` / `shimmer` / `slide-up` / `fade-in` — CSS keyframe animations
+- `glass-nav` — frosted glass navbar on scroll
+- `card` — hover-lift card with subtle shadow
+- `gradient-cta` — green gradient call-to-action buttons
+- `ticker-track` — infinite-scroll CSS animation
+- Animated counters via CSS `@property --num`
 
 ---
 
@@ -133,46 +131,59 @@ The app will be running at **http://localhost:5173**
 
 ```
 ApanMakhana-business-webpage/
-├── public/                   # Static assets (product images, store photos, sitemap)
+├── public/                      # Static assets
+│   ├── product-front.jpeg       # Main product image
+│   ├── product-back.jpeg        # Nutritional info image
+│   ├── product-benefits.jpeg    # Benefits infographic
+│   ├── store-1..13.jpeg         # Store shelf photos
+│   ├── team-1..6.jpeg           # Employee-customer photos
+│   ├── makhana-*.png            # Recipe images
+│   ├── logo-bg.png              # Brand logo
+│   └── sitemap.xml              # SEO sitemap
 ├── src/
 │   ├── components/
-│   │   ├── Navbar.tsx        # Responsive navigation bar
-│   │   ├── Hero.tsx          # Hero banner with CTA
-│   │   ├── TrustBar.tsx      # Trust/certification badges
-│   │   ├── Features.tsx      # Product feature cards
-│   │   ├── Benefits.tsx      # Health benefit highlights
-│   │   ├── Recipes.tsx       # Recipe inspiration section
-│   │   ├── ProductShowcase.tsx # Product display grid
-│   │   ├── StorePresence.tsx # Retail store locations
-│   │   ├── Testimonials.tsx  # Customer reviews
-│   │   ├── FAQ.tsx           # Accordion FAQ section
-│   │   ├── Contact.tsx       # Contact form & details
-│   │   └── Footer.tsx        # Site footer
-│   ├── App.tsx               # Root application component
-│   ├── main.tsx              # Entry point
-│   └── index.css             # Global styles & Tailwind directives
-├── index.html                # HTML template with SEO meta tags
-├── tailwind.config.js        # Custom design tokens & animations
-├── vite.config.ts            # Vite configuration
-├── tsconfig.json             # TypeScript project references
-├── tsconfig.app.json         # App TypeScript config
-├── tsconfig.node.json        # Node TypeScript config
-├── eslint.config.js          # ESLint configuration
-├── postcss.config.js         # PostCSS configuration
-└── package.json              # Dependencies & scripts
+│   │   ├── Navbar.tsx           # Responsive navigation
+│   │   ├── Hero.tsx             # Hero with CTAs & trust signals
+│   │   ├── TrustTicker.tsx      # Scrolling certification bar
+│   │   ├── MetricsBar.tsx       # Animated stat counters
+│   │   ├── WhyChoose.tsx        # Reasons + health benefits
+│   │   ├── Product.tsx          # Nutrition grid & benefit tags
+│   │   ├── NationwidePresence.tsx # Region cards, stores & gallery
+│   │   ├── Recipes.tsx          # Recipe cards with modal
+│   │   ├── FAQ.tsx              # Accordion FAQ
+│   │   └── Footer.tsx           # Dark footer
+│   ├── App.tsx                  # Root component
+│   ├── main.tsx                 # Entry point
+│   └── index.css                # Design system & Tailwind
+├── index.html                   # HTML template with SEO meta
+├── tailwind.config.js           # Custom design tokens
+├── vite.config.ts               # Vite configuration
+└── package.json                 # Dependencies & scripts
 ```
+
+---
+
+## 🗺️ Distribution Coverage
+
+| Region | Channel |
+|--------|---------|
+| Delhi NCR | 250+ Premium Outlets (BKD Store, Raj Mandir, Sodhi Super Mart, etc.) |
+| Gujarat & Rajasthan | Ration Handloom Stores |
+| UP, Haryana & Uttarakhand | Rozana Rural E-commerce |
+| Kashmir | Direct Distribution |
+| Himachal Pradesh | Direct Distribution |
+| Bhopal, MP | Direct Distribution |
+| Pan-India | Amazon India |
 
 ---
 
 ## 🌐 SEO & Meta
 
-The site is fully optimized for search engines and social sharing:
-
 - ✅ Descriptive `<title>` and `<meta description>` tags
-- ✅ Open Graph (`og:title`, `og:description`, `og:type`, `og:url`) for rich social previews
-- ✅ Targeted keywords for makhana, fox nuts & healthy snacking
-- ✅ `sitemap.xml` included in `/public`
-- ✅ Semantic HTML5 structure throughout
+- ✅ Open Graph tags for rich social previews
+- ✅ Targeted keywords for makhana & fox nuts
+- ✅ `sitemap.xml` in `/public`
+- ✅ Semantic HTML5 structure
 
 ---
 

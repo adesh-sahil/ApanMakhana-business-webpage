@@ -1,232 +1,89 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { ChevronRight, X } from 'lucide-react';
+import { Clock, Users, ChefHat, X } from 'lucide-react';
 
-interface Recipe {
-    name: string;
-    description: string;
-    image: string;
-    ingredients: string[];
-    instructions: string[];
-    tag: string;
-}
-
-const RECIPES: Recipe[] = [
+const RECIPES = [
     {
-        name: 'Makhana Kheer',
-        description: 'A rich, creamy dessert made with foxnuts and milk. Perfect for festivals!',
+        title: 'Masala Makhana',
+        time: '10 min',
+        servings: '2',
+        image: './makhana-recipe.jpeg',
+        ingredients: ['2 cups Apan Makhana', '1 tbsp ghee', '½ tsp turmeric', '½ tsp chili powder', 'Salt to taste', 'Curry leaves'],
+        steps: ['Dry roast makhana on medium heat until crispy.', 'Add ghee, turmeric, chili & curry leaves.', 'Toss well for 2 minutes. Serve hot!'],
+    },
+    {
+        title: 'Makhana Kheer',
+        time: '25 min',
+        servings: '4',
         image: './makhana-kheer.png',
-        tag: 'Dessert',
-        ingredients: [
-            '1 cup Foxnuts (Makhana)',
-            '2 cups Full Cream Milk',
-            '¼ cup Sugar (adjust to taste)',
-            '¼ tsp Cardamom Powder',
-            'A pinch of Saffron strands',
-            '1 tbsp Ghee',
-            '2 tbsp Chopped Cashews & Almonds',
-        ],
-        instructions: [
-            'Roast makhana in ghee until crispy and golden.',
-            'Boil milk, reduce heat, simmer. Add saffron.',
-            'Add roasted makhana, cook 10-12 min until softened.',
-            'Add sugar and cardamom. Cook until thickened.',
-            'Garnish with nuts. Serve warm or chilled!',
-        ],
+        ingredients: ['1 cup Apan Makhana', '1 liter full cream milk', '½ cup sugar', '1 tbsp ghee', 'Cardamom, nuts for garnish'],
+        steps: ['Roast makhana in ghee till crispy. Crush lightly.', 'Boil milk, reduce by half on low flame.', 'Add makhana, sugar & cardamom. Simmer 10 min.', 'Garnish with nuts. Serve warm or chilled.'],
     },
     {
-        name: 'Makhana Curry',
-        description: 'A spicy, aromatic curry full of flavors. Perfect for lunch or dinner!',
+        title: 'Makhana Curry',
+        time: '20 min',
+        servings: '3',
         image: './makhana-curry.png',
-        tag: 'Main Course',
-        ingredients: [
-            '1 cup Foxnuts (Makhana)',
-            '1 Onion, finely chopped',
-            '1 Tomato, pureed',
-            '¼ cup Fresh Cream',
-            '1 tbsp Ginger-Garlic Paste',
-            '½ tsp Turmeric, 1 tsp Red Chili Powder',
-            '1 tsp Garam Masala, Salt to taste',
-        ],
-        instructions: [
-            'Dry roast makhana until crispy.',
-            'Sauté onions in oil with cumin seeds.',
-            'Add spices and tomato puree. Cook until oil separates.',
-            'Add water, boil, simmer 5 mins.',
-            'Add makhana and cream. Simmer 10 mins. Garnish.',
-        ],
-    },
-    {
-        name: 'Makhana Laddoo',
-        description: 'Healthy energy balls with jaggery & dry fruits — sweet and nutritious!',
-        image: './makhana-laddoo.png',
-        tag: 'Snack',
-        ingredients: [
-            '1 cup Foxnuts (Makhana)',
-            '½ cup Jaggery (grated)',
-            '¼ cup Ghee',
-            '¼ tsp Cardamom Powder',
-            '2 tbsp Chopped Pistachios',
-            '1 tbsp each: Cashews, Almonds',
-            '1 tbsp Pumpkin Seeds',
-        ],
-        instructions: [
-            'Dry roast foxnuts until crispy. Cool down.',
-            'Melt ghee, add jaggery. Stir until syrup thickens.',
-            'Crush makhana, add with nuts and cardamom.',
-            'Shape into laddoos with greased hands.',
-            'Set for 30 mins. Enjoy!',
-        ],
+        ingredients: ['2 cups Apan Makhana', '1 cup tomato puree', '½ cup cream', '1 tsp garam masala', 'Ginger-garlic paste', 'Oil & salt'],
+        steps: ['Roast makhana in oil. Set aside.', 'Sauté ginger-garlic paste, add tomato puree.', 'Add spices, cream & makhana. Simmer 8 min.', 'Garnish with cream and serve with rice or roti.'],
     },
 ];
 
-function RecipeModal({ recipe, onClose }: { recipe: Recipe; onClose: () => void }) {
-    return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end sm:items-center 
-                 justify-center z-50 p-0 sm:p-4"
-            onClick={onClose}
-        >
-            <motion.div
-                initial={{ opacity: 0, y: 100 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 100 }}
-                transition={{ type: 'spring', damping: 25 }}
-                className="bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl w-full sm:max-w-lg 
-                   max-h-[90vh] overflow-y-auto"
-                onClick={(e) => e.stopPropagation()}
-            >
-                {/* Header image */}
-                <div className="relative h-44 sm:h-48 overflow-hidden rounded-t-3xl">
-                    <img src={recipe.image} alt={recipe.name} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <button
-                        onClick={onClose}
-                        className="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-md rounded-full 
-                       flex items-center justify-center active:bg-white/70"
-                    >
-                        <X className="w-4 h-4 text-gray-700" />
-                    </button>
-                    <div className="absolute bottom-3 left-4">
-                        <span className="px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-body 
-                             font-semibold text-brand-700">
-                            {recipe.tag}
-                        </span>
-                    </div>
-                </div>
-
-                <div className="p-5 sm:p-6">
-                    <h3 className="text-xl sm:text-2xl font-display font-bold text-gray-800 mb-1.5">
-                        {recipe.name}
-                    </h3>
-                    <p className="text-gray-500 font-body text-sm mb-5">{recipe.description}</p>
-
-                    <div className="mb-5">
-                        <h4 className="text-xs font-body font-semibold text-gray-800 uppercase tracking-wider mb-2.5">
-                            Ingredients
-                        </h4>
-                        <div className="space-y-1.5">
-                            {recipe.ingredients.map((item, i) => (
-                                <div key={i} className="flex items-start gap-2 text-sm font-body text-gray-600">
-                                    <span className="w-1.5 h-1.5 mt-1.5 bg-brand-400 rounded-full flex-shrink-0" />
-                                    {item}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div>
-                        <h4 className="text-xs font-body font-semibold text-gray-800 uppercase tracking-wider mb-2.5">
-                            Instructions
-                        </h4>
-                        <div className="space-y-2.5">
-                            {recipe.instructions.map((step, i) => (
-                                <div key={i} className="flex gap-2.5 text-sm font-body text-gray-600">
-                                    <span className="flex-shrink-0 w-5 h-5 rounded-full gradient-cta text-white text-[10px] 
-                                   font-semibold flex items-center justify-center mt-0.5">
-                                        {i + 1}
-                                    </span>
-                                    {step}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </motion.div>
-        </motion.div>
-    );
-}
-
 export default function Recipes() {
-    const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 });
+    const [active, setActive] = useState<number | null>(null);
 
     return (
-        <section id="recipes" className="py-16 sm:py-20 lg:py-28 gradient-section-alt" ref={ref}>
-            <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-                {/* Header */}
-                <div className="text-center mb-10 sm:mb-14">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                    >
-                        <span className="section-badge mb-4 inline-flex">Cook with Makhana</span>
-                        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-display font-bold mb-3">
-                            <span className="gradient-text-brand">Delicious Recipes</span>
+        <section id="recipes" className="py-16 sm:py-20 lg:py-28 gradient-green-soft" ref={ref}>
+            <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+                <div className="text-center mb-8 sm:mb-12">
+                    <motion.div initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}}>
+                        <span className="section-label mb-4 inline-flex">
+                            <ChefHat className="w-3 h-3" />
+                            Cook with Makhana
+                        </span>
+                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-gray-900 mb-2">
+                            Delicious Recipes
                         </h2>
-                        <p className="text-gray-500 font-body text-sm sm:text-lg max-w-xl mx-auto">
-                            Transform our fox nuts into mouth-watering dishes your family will love
+                        <p className="text-gray-500 font-body text-sm sm:text-base max-w-md mx-auto">
+                            Simple recipes that make makhana the star of your kitchen
                         </p>
                     </motion.div>
                 </div>
 
-                {/* Recipe cards — horizontal scroll on mobile */}
-                <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 -mx-5 px-5 sm:-mx-0 sm:px-0 
+                {/* Recipe cards — horizontal scroll on mobile, grid on desktop */}
+                <div className="flex gap-4 sm:gap-5 overflow-x-auto pb-3 -mx-5 px-5 sm:-mx-0 sm:px-0 
                         snap-x snap-mandatory scrollbar-hide 
-                        sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:overflow-visible">
-                    {RECIPES.map((recipe, i) => (
+                        sm:grid sm:grid-cols-3 sm:overflow-visible">
+                    {RECIPES.map((r, i) => (
                         <motion.div
-                            key={recipe.name}
-                            initial={{ opacity: 0, y: 25 }}
+                            key={r.title}
+                            initial={{ opacity: 0, y: 16 }}
                             animate={inView ? { opacity: 1, y: 0 } : {}}
-                            transition={{ delay: i * 0.12, duration: 0.5 }}
-                            className="flex-shrink-0 w-[280px] sm:w-auto snap-start group card-premium overflow-hidden"
+                            transition={{ delay: i * 0.1 }}
+                            className="flex-shrink-0 w-[260px] sm:w-auto snap-start card overflow-hidden cursor-pointer 
+                         group"
+                            onClick={() => setActive(i)}
                         >
-                            {/* Image */}
-                            <div className="relative h-44 sm:h-52 overflow-hidden">
+                            <div className="relative h-40 sm:h-44 overflow-hidden">
                                 <img
-                                    src={recipe.image}
-                                    alt={recipe.name}
-                                    className="w-full h-full object-cover transition-transform duration-700 
-                             group-hover:scale-110"
+                                    src={r.image}
+                                    alt={r.title}
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     loading="lazy"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                                <span className="absolute top-3 left-3 px-2.5 py-1 bg-white/90 backdrop-blur-md 
-                                 rounded-full text-[10px] sm:text-xs font-body font-semibold text-brand-700">
-                                    {recipe.tag}
-                                </span>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                             </div>
-
-                            {/* Content */}
                             <div className="p-4 sm:p-5">
-                                <h3 className="text-base sm:text-lg font-display font-bold text-gray-800 mb-1.5">
-                                    {recipe.name}
-                                </h3>
-                                <p className="text-gray-500 font-body text-xs sm:text-sm leading-relaxed mb-3 line-clamp-2">
-                                    {recipe.description}
-                                </p>
-                                <button
-                                    onClick={() => setSelectedRecipe(recipe)}
-                                    className="inline-flex items-center gap-1 text-xs sm:text-sm font-body font-semibold 
-                             text-brand-600 active:text-brand-700 group/btn"
-                                >
-                                    View Recipe
-                                    <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover/btn:translate-x-1" />
+                                <h3 className="text-base sm:text-lg font-display font-bold text-gray-900 mb-2">{r.title}</h3>
+                                <div className="flex items-center gap-3 text-xs sm:text-sm font-body text-gray-500">
+                                    <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{r.time}</span>
+                                    <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" />{r.servings} servings</span>
+                                </div>
+                                <button className="mt-3 text-xs sm:text-sm font-body font-semibold text-brand-600 
+                                   group-hover:text-brand-700 transition-colors">
+                                    View Recipe →
                                 </button>
                             </div>
                         </motion.div>
@@ -234,12 +91,62 @@ export default function Recipes() {
                 </div>
             </div>
 
-            {/* Recipe modal — slides up from bottom on mobile */}
-            <AnimatePresence>
-                {selectedRecipe && (
-                    <RecipeModal recipe={selectedRecipe} onClose={() => setSelectedRecipe(null)} />
-                )}
-            </AnimatePresence>
+            {/* Recipe modal — bottom sheet on mobile */}
+            {active !== null && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="fixed inset-0 bg-black/40 z-50 flex items-end sm:items-center sm:justify-center"
+                    onClick={() => setActive(null)}
+                >
+                    <motion.div
+                        initial={{ y: '100%' }}
+                        animate={{ y: 0 }}
+                        transition={{ type: 'spring', damping: 28, stiffness: 280 }}
+                        onClick={(e) => e.stopPropagation()}
+                        className="w-full sm:w-[520px] max-h-[85vh] bg-white rounded-t-2xl sm:rounded-2xl 
+                       overflow-y-auto shadow-xl"
+                    >
+                        <div className="sticky top-0 bg-white border-b border-gray-50 p-4 flex items-center justify-between z-10">
+                            <h3 className="text-base font-display font-bold text-gray-900">{RECIPES[active].title}</h3>
+                            <button onClick={() => setActive(null)} className="p-1.5 rounded-lg active:bg-gray-100">
+                                <X className="w-5 h-5 text-gray-400" />
+                            </button>
+                        </div>
+                        <div className="p-4 sm:p-5">
+                            <img
+                                src={RECIPES[active].image}
+                                alt={RECIPES[active].title}
+                                className="w-full h-44 sm:h-52 object-cover rounded-xl mb-4"
+                            />
+                            <div className="flex gap-3 mb-4 text-xs font-body text-gray-500">
+                                <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{RECIPES[active].time}</span>
+                                <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" />{RECIPES[active].servings} servings</span>
+                            </div>
+                            <h4 className="text-sm font-body font-bold text-gray-800 mb-2">Ingredients</h4>
+                            <ul className="space-y-1 mb-5">
+                                {RECIPES[active].ingredients.map((ing) => (
+                                    <li key={ing} className="text-sm font-body text-gray-600 flex items-start gap-2">
+                                        <span className="text-brand-500 mt-0.5">•</span>{ing}
+                                    </li>
+                                ))}
+                            </ul>
+                            <h4 className="text-sm font-body font-bold text-gray-800 mb-2">Steps</h4>
+                            <ol className="space-y-2">
+                                {RECIPES[active].steps.map((step, i) => (
+                                    <li key={i} className="text-sm font-body text-gray-600 flex items-start gap-2">
+                                        <span className="flex-shrink-0 w-5 h-5 rounded-full bg-brand-50 text-brand-600 
+                                     text-xs font-semibold flex items-center justify-center">
+                                            {i + 1}
+                                        </span>
+                                        {step}
+                                    </li>
+                                ))}
+                            </ol>
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
         </section>
     );
 }
