@@ -5,42 +5,101 @@ import { Link } from 'react-scroll';
 const AMAZON_URL = 'https://www.amazon.in/dp/B0DW3LTXJN';
 const INSTAGRAM_URL = 'https://www.instagram.com/apan.makhana/';
 
+// Stagger timings (seconds)
+const T = {
+  line1: 0.3,
+  line2: 1.0,
+  brand: 1.8,
+  tagline: 2.6,
+  desc: 3.1,
+  cta: 3.5,
+  trust: 3.9,
+  product: 1.2,
+};
+
 export default function Hero() {
   return (
-    <section id="home" className="relative min-h-[100svh] gradient-hero flex flex-col">
+    <section id="home" className="relative min-h-[100svh] gradient-hero flex flex-col overflow-hidden">
       {/* Decorative blurs */}
       <div className="absolute top-16 -left-20 w-64 h-64 bg-brand-300/10 rounded-full blur-[100px]" />
       <div className="absolute bottom-16 -right-20 w-72 h-72 bg-gold-300/8 rounded-full blur-[100px]" />
 
       <div className="relative flex-1 flex items-center w-full max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 pt-20 pb-8 sm:pt-28 lg:pt-32 sm:pb-16">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
-          {/* Copy */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center lg:text-left order-1"
-          >
-            <div className="flex justify-center lg:justify-start mb-5">
-              <span className="section-label">
-                <span className="w-1.5 h-1.5 bg-brand-500 rounded-full animate-pulse" />
-                Premium Fox Nuts from Mithila
-              </span>
-            </div>
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-center w-full">
+          {/* Cinematic text reveal */}
+          <div className="text-center lg:text-left order-1">
+            {/* Line 1 — origin */}
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: T.line1, duration: 0.6, ease: 'easeOut' }}
+              className="font-body text-xs sm:text-sm tracking-[0.2em] uppercase text-gray-400 mb-2 sm:mb-3"
+            >
+              From the farms of Mithila
+            </motion.p>
 
-            <h1 className="text-[2.75rem] leading-[1.05] sm:text-6xl lg:text-7xl font-display font-bold mb-4 sm:mb-5 tracking-tight">
-              <span className="gradient-text-brand">The Taste of</span>
-              <br />
-              <span className="text-gray-900">Mithilaa</span>
-            </h1>
+            {/* Line 2 — scale */}
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: T.line2, duration: 0.6, ease: 'easeOut' }}
+              className="font-body text-xs sm:text-sm tracking-[0.15em] uppercase text-brand-600/70 mb-4 sm:mb-5"
+            >
+              To 300+ stores across India
+            </motion.p>
 
-            <p className="text-[0.95rem] leading-relaxed sm:text-lg text-gray-500 font-body max-w-md mx-auto lg:mx-0 mb-6 sm:mb-8">
-              Hand-picked, FSSAI certified fox nuts — rich in protein, antioxidants &amp; natural goodness.
-              Now available in <strong className="text-gray-700">300+ outlets across 8+ states</strong>.
-            </p>
+            {/* Brand name — THE reveal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ delay: T.brand, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <h1 className="text-5xl sm:text-7xl lg:text-8xl font-display font-bold tracking-tight leading-[0.95]">
+                <span className="gradient-text-brand">Apan</span>
+                <br />
+                <span className="text-gray-900">Makhana</span>
+              </h1>
+            </motion.div>
+
+            {/* Gold divider line */}
+            <motion.div
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              transition={{ delay: T.tagline - 0.2, duration: 0.5 }}
+              className="origin-center lg:origin-left mx-auto lg:mx-0 my-3 sm:my-4"
+            >
+              <div className="gold-line w-12 sm:w-16 mx-auto lg:mx-0" />
+            </motion.div>
+
+            {/* Tagline */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: T.tagline, duration: 0.5 }}
+              className="font-display text-lg sm:text-xl lg:text-2xl font-semibold text-gray-700 mb-3 sm:mb-4 
+                         tracking-wide"
+            >
+              India's Premium Fox Nuts
+            </motion.p>
+
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: T.desc, duration: 0.5 }}
+              className="text-sm sm:text-[0.95rem] leading-relaxed text-gray-400 font-body max-w-sm mx-auto lg:mx-0 mb-6 sm:mb-7"
+            >
+              Hand-picked, FSSAI certified &amp; 100% natural.
+              Rich in protein, antioxidants &amp; goodness.
+            </motion.p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-3 items-center justify-center lg:justify-start">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: T.cta, duration: 0.5 }}
+              className="flex flex-col sm:flex-row gap-3 items-center justify-center lg:justify-start"
+            >
               <motion.button
                 whileTap={{ scale: 0.97 }}
                 onClick={() => window.open(AMAZON_URL, '_blank')}
@@ -61,23 +120,28 @@ export default function Hero() {
                 <Instagram className="w-[18px] h-[18px] text-pink-500" />
                 @apan.makhana
               </motion.button>
-            </div>
+            </motion.div>
 
             {/* Trust line */}
-            <div className="flex items-center gap-3 justify-center lg:justify-start mt-6 text-[0.75rem] font-body text-gray-400">
-              <span className="flex items-center gap-1">✅ FSSAI Certified</span>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: T.trust, duration: 0.5 }}
+              className="flex items-center gap-3 justify-center lg:justify-start mt-5 text-[0.7rem] sm:text-xs font-body text-gray-400"
+            >
+              <span>✅ FSSAI Certified</span>
               <span className="w-1 h-1 bg-gray-300 rounded-full" />
-              <span className="flex items-center gap-1">🌿 100% Natural</span>
+              <span>🌿 100% Natural</span>
               <span className="w-1 h-1 bg-gray-300 rounded-full" />
-              <span className="flex items-center gap-1">🇮🇳 Made in India</span>
-            </div>
-          </motion.div>
+              <span>🇮🇳 Made in India</span>
+            </motion.div>
+          </div>
 
-          {/* Product */}
+          {/* Product image — enters slightly after the origin text */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, scale: 0.88, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: T.product, duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex justify-center items-center order-2"
           >
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -95,11 +159,12 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll */}
+      {/* Scroll indicator */}
       <Link to="metrics" smooth offset={-20} className="cursor-pointer">
         <motion.div
-          animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, y: [0, 5, 0] }}
+          transition={{ opacity: { delay: 4.2 }, y: { duration: 2, repeat: Infinity, ease: 'easeInOut' } }}
           className="flex justify-center pb-5"
         >
           <ChevronDown className="w-5 h-5 text-brand-400/60" />
