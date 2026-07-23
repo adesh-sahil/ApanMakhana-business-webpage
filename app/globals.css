@@ -1,0 +1,248 @@
+@import "tailwindcss";
+
+/* ============================================================
+   APAN MAKHANA — "One continuous pond, lit in zones"
+
+   The old site read as stacked sections because every section
+   owned a background colour and alternated white/cream. Here no
+   section has a background. There is one unbroken dark field
+   from nav to footer, and zones are defined by light and type.
+   ============================================================ */
+
+@theme {
+  --color-void: #050f0b;
+  --color-pond: #0a1a12;
+  --color-moss: #12291d;
+  --color-gold: #e6bb55;
+  --color-ember: #8a6f31;
+  --color-cream: #f5edd8;
+
+  --font-display: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-instrument-sans), system-ui, -apple-system, sans-serif;
+  --font-devanagari: var(--font-noto-devanagari), "Noto Serif Devanagari", serif;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Lenis owns scrolling; native smooth-scroll would fight it. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+  }
+
+  /* Clears the fixed nav on the reduced-motion path, where Lenis (and
+     its anchor offset) never runs and the browser jumps natively. */
+  section[id] {
+    scroll-margin-top: 80px;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-void);
+  }
+
+  /* Quality floor: keyboard focus is always visible. */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-void);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ember);
+    border-radius: 3px;
+  }
+}
+
+/* ============================================================
+   ATMOSPHERE
+   ============================================================ */
+
+/* Zone lighting — a spotlight, never a background colour. */
+.spotlight {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(90px);
+}
+
+.spotlight-gold {
+  background: radial-gradient(
+    circle,
+    rgba(230, 187, 85, 0.18) 0%,
+    rgba(230, 187, 85, 0.06) 45%,
+    transparent 70%
+  );
+}
+
+.spotlight-moss {
+  background: radial-gradient(
+    circle,
+    rgba(64, 145, 108, 0.16) 0%,
+    transparent 70%
+  );
+}
+
+/* Editorial eyebrow. The rule encodes position on the spine. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.hairline {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-ember),
+    transparent
+  );
+}
+
+/* Floating makhana — ambient life so the page never looks frozen when
+   the user stops scrolling.
+   These are deliberately the ONLY ambient particle system on the page.
+   An earlier pass used generic gold sparkle; layering makhana on top of
+   that would have given two competing systems and read as clutter.
+   Same particle count, more meaningful shape. */
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0;
+  }
+  12%,
+  82% {
+    opacity: var(--mote-peak, 0.18);
+  }
+  100% {
+    transform: translate3d(var(--mote-x, 20px), -180px, 0) scale(0.85);
+    opacity: 0;
+  }
+}
+
+/* A puffed lotus seed, far out of focus: soft sphere, warm underside,
+   and the characteristic dark speck. Larger motes blur more, which is
+   what sells depth rather than flat confetti. */
+.mote {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle at 36% 30%,
+    rgba(255, 253, 246, 0.95) 0%,
+    rgba(245, 237, 216, 0.8) 42%,
+    rgba(206, 188, 148, 0.45) 76%,
+    rgba(160, 140, 100, 0.15) 100%
+  );
+  box-shadow:
+    inset -2px -3px 7px rgba(90, 72, 38, 0.3),
+    inset 2px 2px 5px rgba(255, 255, 255, 0.35);
+  filter: blur(var(--mote-blur, 1px));
+  animation: drift var(--mote-dur, 20s) linear infinite;
+  animation-delay: var(--mote-delay, 0s);
+  will-change: transform, opacity;
+}
+
+/* The speck every makhana has. */
+.mote::after {
+  content: "";
+  position: absolute;
+  top: 46%;
+  left: 40%;
+  width: 18%;
+  height: 14%;
+  border-radius: 9999px;
+  background: rgba(74, 56, 30, 0.45);
+}
+
+/* Idle float. Lives on a child node so it composes with the
+   scrubbed transform GSAP drives on the parent — animating both
+   on one node would make them fight. */
+@keyframes idlefloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+.idle-float {
+  animation: idlefloat 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* The product is lit, not pasted on. A warm rim + falloff makes a
+   photographic pouch sit inside the dark field. */
+.lit-product {
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.75))
+    drop-shadow(0 0 40px rgba(230, 187, 85, 0.18));
+}
+
+/* ============================================================
+   REDUCED MOTION — everything collapses to a plain fade.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .mote {
+    display: none;
+  }
+
+  .idle-float {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
